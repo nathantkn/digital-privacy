@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { fetchChatCompletion } from "./groqClient";
 import './App.css'
 import Boo from './assets/boo.webp'
 import Mike from './assets/mike.webp'
@@ -43,26 +44,9 @@ function App() {
       { role: "user", content: userInput }
     ];
 
-    // Reference to API key from environment variable
-    const apiKey = import.meta.env.VITE_API_KEY;
-    
     try {
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "openai/gpt-4o",
-          messages: updatedHistory,
-          max_tokens: 24
-        }),
-      });
-      
-      const data = await response.json();
-      console.log("API response:", data);
-      
+      const data = await fetchChatCompletion(chatHistory);
+      console.log(data.choices[0]?.message?.content || "");
       if (data.choices && data.choices.length > 0) {
         const reply = data.choices[0].message.content;
         setMikeMessage(reply);
