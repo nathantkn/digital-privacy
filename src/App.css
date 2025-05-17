@@ -7,8 +7,8 @@
 
 .main-container {
   position: relative;
-  width: 92%;
-  height: 85%;
+  width: 800px;
+  height: 600px;
   background-color: rgba(255, 255, 255, 0.3);
   backdrop-filter: blur(8px);
   border-radius: 12px;
@@ -37,6 +37,9 @@
 
 /* Speech Bubbles */
 .speech-bubble {
+  width: 240px; /* Fixed width for speech bubbles */
+  min-height: 80px; /* Minimum height */
+  max-height: 160px; /* Maximum height */
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 16px;
@@ -58,6 +61,8 @@
 .message-text {
   font-weight: 500;
   color: #1f2937;
+  word-wrap: break-word;
+  width: 100%;
 }
 
 .speech-pointer {
@@ -278,4 +283,16 @@
 
 .send-button:active {
   background-color: #be185d;
+}
+
+@media (max-width: 900px) {
+  .main-container {
+    width: 90%;
+    height: auto;
+    min-height: 500px;
+  }
+  
+  .speech-bubble {
+    width: 200px;
+  }
 }

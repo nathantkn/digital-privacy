@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { fetchChatCompletion } from "./groqClient";
 import './App.css';
-import Boo from './assets/boo.webp';
-import Mike from './assets/mike.webp';
+import booAvatar from './assets/boo.webp';
+import mikeAvatar from './assets/mike.webp';
+import Character from './components/Character';
+import Canister from './components/Canister';
+import MessageForm from './components/MessageForm';
 
 function App() {
   const [screamLevel, setScreamLevel] = useState(0);
@@ -138,67 +141,30 @@ You're a playful, curious AI monster chatting with a child. Your goal is to help
     <div className="app-container">
       <div className="main-container">
         <div className="characters-container">
-          <div className="character mike">
-            <div className="speech-bubble mike-bubble">
-              <div className="message-text">
-                {isLoading ? (
-                  <span className="loading-dots">Mike is thinking<span>.</span><span>.</span><span>.</span></span>
-                ) : mikeMessage}
-              </div>
-              <div className="speech-pointer mike-pointer"></div>
-            </div>
-            <div className="avatar mike-avatar">
-              <img src={Mike} className="mike-img" alt="Mike" />
-            </div>
-          </div>
-
-          <div className="character boo">
-            <div className="speech-bubble boo-bubble">
-              <div className="message-text">{userInput}</div>
-              <div className="speech-pointer boo-pointer"></div>
-            </div>
-            <div className="avatar boo-avatar">
-              <img src={Boo} className="boo-img" alt="Boo" />
-            </div>
-          </div>
-        </div>
-
-        <div className="canister-container">
-          <div className="scream-canister">
-            <div className="canister-body">
-              <div className="meter-display">
-                <div className="meter-symbol minus">-</div>
-                <div className="meter-segments">
-                  <div className={`segment ${screamLevel >= 20 ? 'active' : ''}`}></div>
-                  <div className={`segment ${screamLevel >= 40 ? 'active' : ''}`}></div>
-                  <div className={`segment ${screamLevel >= 60 ? 'active' : ''}`}></div>
-                  <div className={`segment ${screamLevel >= 80 ? 'active' : ''}`}></div>
-                </div>
-                <div className="meter-symbol plus">+</div>
-              </div>
-            </div>
-            <div className="canister-cap left-cap"></div>
-            <div className="canister-cap right-cap"></div>
-          </div>
-        </div>
-
-        <form className="message-form" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            className="message-input"
-            placeholder="Type your message..."
-            value={inputMessage}
-            onChange={(e) => setInputMessage(e.target.value)}
-            disabled={isLoading}
+          <Character
+            type="mike"
+            avatar={mikeAvatar}
+            message={mikeMessage}
+            isLoading={isLoading}
+            loadingText="Mike is thinking"
           />
-          <button
-            type="submit"
-            className={`send-button ${isLoading ? 'disabled' : ''}`}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Sending...' : 'Send'}
-          </button>
-        </form>
+
+          <Character
+            type="boo"
+            avatar={booAvatar}
+            message={userInput}
+            isLoading={false}
+          />
+        </div>
+
+        <Canister screamLevel={screamLevel} />
+
+        <MessageForm
+          inputMessage={inputMessage}
+          setInputMessage={setInputMessage}
+          handleSubmit={handleSubmit}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );

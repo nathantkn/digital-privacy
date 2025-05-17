@@ -1,0 +1,20 @@
+import React from 'react';
+import SpeechBubble from './SpeechBubble';
+
+const Character = ({ type, avatar, message, isLoading, loadingText }) => {
+    return (
+        <div className={`character ${type}`}>
+            <SpeechBubble 
+                type={type} 
+                message={message} 
+                isLoading={isLoading} 
+                loadingText={loadingText} 
+            />
+            <div className={`avatar ${type}-avatar`}>
+                <img src={avatar} className={`${type}-img`} alt={type} />
+            </div>
+        </div>
+    );
+};
+
+export default Character;
