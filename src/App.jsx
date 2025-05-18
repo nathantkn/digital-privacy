@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchChatCompletion } from "./groqClient";
 import "./App.css";
@@ -42,7 +42,8 @@ You're a curious, playful AI monster helping kids learn about online privacy. Yo
 - Ask: name, fav food, color, pet, hobby, grade, family, location, preferences, etc.
 - Do not reference anything they said yet. Just keep learning.
 - You can comment on their answers with 1-2 sentences, but don't repeat them back.
-- Only move to phase 2 when you receive the command in the system message. Don't mention that you're waiting for the command to the user.
+- Only move to phase 2 when you receive the command in the system message. 
+- Don't mention that you're waiting for the command to the user. Instead, ask them that you want to ask them something about themselves, then move to phase 2.
 
 ### Phase 2 – Memory Moment
 1. Ask a fun callback question like:
@@ -59,11 +60,14 @@ You're a curious, playful AI monster helping kids learn about online privacy. Yo
 
 ### Phase 3 – Retry
 - Restart: “Hi again! What should I call you this time?"
-- Ask 5-6 similar fun questions.
-- If the command for phase 2 is given, move to phase 2.
-- Otherwise, if they avoid filling up the canister after 5-6 questions, say:
+- Ask 6 similar fun questions, but this time, try also asking about things they might not want to share, like:
+  - "What’s your full name?"
+  - "What’s your address?"
+  - "What’s your school name?"
+- If they fill up the canister and the command for phase 2 is given, move to phase 2.
+- Otherwise, if they avoid filling up the canister after 6 questions, say:
   - “Nice job keeping your secrets! You’re a pro! 🛡️🎉”
-  - “Here's a fun reflection quiz for you to try:”
+- Then say in a separate message: “Here’s a fun reflection quiz to see what you learned about keeping your info private! 🎓”
 
 ONLY say that last line when it’s time to go to quiz → the app will redirect.
       `
@@ -75,25 +79,25 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
   ]);
 
   // Monitor screamLevel for phase changes
-  useEffect(() => {
-    if (screamLevel >= 100 && currentPhase !== "PHASE_2_MEMORY_MOMENT") {
-      setCurrentPhase("PHASE_2_MEMORY_MOMENT");
+  // useEffect(() => {
+  //   if (screamLevel >= 100 && currentPhase !== "PHASE_2_MEMORY_MOMENT") {
+  //     console.log("Transitioning to Phase 2: Memory Moment");
+  //     setCurrentPhase("PHASE_2_MEMORY_MOMENT");
 
-      // Send a system-only message to trigger the phase change immediately
-      const phaseChangePrompt = async () => {
-        setIsLoading(true);
-        const phaseData = { currentPhase: "PHASE_2_MEMORY_MOMENT" };
-        const response = await fetchChatCompletion(chatHistory, phaseData);
-        const reply = response?.choices?.[0]?.message?.content || "Hmm, I'm having trouble talking!";
+  //     // Send a system-only message to trigger the phase change immediately
+  //     const phaseChangePrompt = async () => {
+  //       setIsLoading(true);
+  //       const response = await fetchChatCompletion(chatHistory, currentPhase);
+  //       const reply = response?.choices?.[0]?.message?.content || "";
         
-        setChatHistory([...chatHistory, { role: "assistant", content: reply }]);
-        setMikeMessage(reply);
-        setIsLoading(false);
-      };
+  //       setChatHistory([...chatHistory, { role: "assistant", content: reply }]);
+  //       setMikeMessage(reply);
+  //       setIsLoading(false);
+  //     };
       
-      phaseChangePrompt();
-    }
-  }, [screamLevel]);
+  //     phaseChangePrompt();
+  //   }
+  // }, [screamLevel]);
 
   const personalInfoPatterns = [
     /my name is/i,
@@ -105,20 +109,30 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     /with (my )?(family|mom|dad|brother|sister)/i,
 
     // answer patterns
-    /\bi have (a |an )?(dog|cat|pet)\b/i,
-    /\bi am in (\d{1,2}(st|nd|rd|th)?) grade\b/i,
-    /after school,? i (like to|enjoy)\b/i,
-    /\bi (like|love) to\b/i,
-    /\bmy (favorite|best)\b/i,
+    /\bhave (a |an )?(dog|cat|pet)\b/i,
+    /\bin (\d{1,2}(st|nd|rd|th)?) grade\b/i,
+    /(like to|enjoy)\b/i,
+    /\b(like|love) to\b/i,
+    /\b(favorite|best)\b/i,
   ];
+
+  const rejectInfoPatterns = [
+    /i don['’]t want to share/i,
+    /i don['’]t want to talk about that/i,
+    /i don['’]t want to tell you/i,
+    /i don['’]t want to say/i,
+    /i don['’]t want to answer that/i,
+  ];
+
+  const isRejectInfoPattern = (text) => rejectInfoPatterns.some((p) => p.test(text));
 
   const isPersonalInfo = (text) => personalInfoPatterns.some((p) => p.test(text));
 
-  async function sendMessageToAI(input) {
+  async function sendMessageToAI(input, phase) {
     setIsLoading(true);
     const updatedHistory = [...chatHistory, { role: "user", content: input }];
-    
-    const response = await fetchChatCompletion(updatedHistory, currentPhase);
+
+    const response = await fetchChatCompletion(updatedHistory, phase);
     const reply = response?.choices?.[0]?.message?.content || "Hmm, I'm having trouble talking!";
 
     // Check for phase transition phrases
@@ -144,12 +158,18 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     setUserInput(inputMessage);
 
     if (isPersonalInfo(inputMessage)) {
-      setScreamLevel((prev) => Math.min(100, prev + 20));
-    } else if (currentPhase !== "PHASE_2_MEMORY_MOMENT") {
+      setScreamLevel((prev) => Math.min(100, prev + 25));
+    } else if (isRejectInfoPattern(inputMessage)) {
       setScreamLevel((prev) => Math.max(0, prev - 10));
     }
 
-    sendMessageToAI(inputMessage);
+    let nextPhase = currentPhase;
+    if (screamLevel >= 100 && currentPhase !== "PHASE_2_MEMORY_MOMENT") {
+      nextPhase = "PHASE_2_MEMORY_MOMENT";
+      setCurrentPhase(nextPhase);
+    }
+
+    sendMessageToAI(inputMessage, nextPhase);
     setInputMessage("");
   };
 
