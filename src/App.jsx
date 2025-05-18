@@ -23,7 +23,6 @@ function App() {
   const [typingTimeout, setTypingTimeout] = useState(null);
 
   const [infoBubbles, setInfoBubbles] = useState([]);
-  const [isReceivingData, setIsReceivingData] = useState(false);
   const nextBubbleId = useRef(0);
 
   const [chatHistory, setChatHistory] = useState([
@@ -143,8 +142,6 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     
     // Show canister receiving effect
     setTimeout(() => {
-      setIsReceivingData(true);
-      setTimeout(() => setIsReceivingData(false), 500);
     }, 800); // Timed to coincide with bubble arrival
     
     // Remove bubble from state after animation completes
