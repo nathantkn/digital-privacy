@@ -1,5 +1,6 @@
 import React from 'react';
 import SpeechBubble from './SpeechBubble';
+import "../styles/Character.css";
 
 const Character = ({ type, avatar, message, isLoading, loadingText }) => {
     return (

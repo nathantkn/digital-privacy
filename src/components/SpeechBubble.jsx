@@ -1,4 +1,5 @@
 import React from 'react';
+import "../styles/SpeechBubble.css";
 
 const SpeechBubble = ({ type, isLoading, message, loadingText }) => {
     return (

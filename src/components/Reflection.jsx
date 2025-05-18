@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Reflection.css"; // you’ll need to create this
+import "../styles/Reflection.css";
 
 const questions = [
   {

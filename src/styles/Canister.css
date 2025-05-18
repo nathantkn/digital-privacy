@@ -1,0 +1,136 @@
+/* Canister.css */
+.canister-container {
+    margin-top: 32px;
+    height: 112px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.scream-canister {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.canister-body {
+    width: 100%;
+    height: 100%;
+    background-color: #fbbf24;
+    border-radius: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #f59e0b;
+    z-index: 2;
+    overflow: hidden; /* Hide overflow for bubbles */
+}
+
+.meter-display {
+    width: 70%;
+    height: 40px;
+    background-color: #e5e7eb;
+    border: 3px solid #9ca3af;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.meter-symbol {
+    width: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    color: #f59e0b;
+}
+
+.meter-segments {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+}
+
+.segment {
+    width: 22%;
+    height: 70%;
+    background-color: #4b5563;
+    border-radius: 2px;
+    border: 1px solid #9ca3af;
+    transition: background-color 0.5s ease;
+}
+
+.segment.active {
+    background-color: #10b981;
+}
+
+.canister-cap {
+    width: 40px;
+    height: 96px;
+    background-color: #d1d5db;
+    border: 2px solid #9ca3af;
+    position: absolute;
+    z-index: 1;
+}
+
+.left-cap {
+    left: -10px;
+    border-radius: 50% 0 0 50%;
+}
+
+.right-cap {
+    right: -10px;
+    border-radius: 0 50% 50% 0;
+}
+
+/* Info bubble styles */
+.info-bubble {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: #ef4444;
+    border: 2px solid #b91c1c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    animation: flyToCanister 1.5s forwards;
+    z-index: 10;
+    top: 60%; /* Start from above the canister */
+    transform-origin: center center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation for info bubbles */
+@keyframes flyToCanister {
+    0% {
+        transform: translateY(-100px) scale(0.2);
+        opacity: 0;
+    }
+    30% {
+        transform: translateY(-60px) scale(1);
+        opacity: 1;
+    }
+    60% {
+        transform: translateY(-20px) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(30px) scale(0.5);
+        opacity: 0;
+    }
+}
