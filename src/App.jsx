@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchChatCompletion } from "./groqClient";
 import "./App.css";
@@ -7,6 +7,7 @@ import mikeAvatar from "./assets/mike.webp";
 import Character from "./components/Character";
 import Canister from "./components/Canister";
 import MessageForm from "./components/MessageForm";
+import InfoBubble from "./components/InfoBubble";
 
 function App() {
   const [screamLevel, setScreamLevel] = useState(0);
@@ -21,33 +22,9 @@ function App() {
   const [isTyping, setIsTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(null);
 
-  // Handle typing indicator
-  useEffect(() => {
-    if (inputMessage) {
-      setIsTyping(true);
-      
-      // Clear any existing timeout
-      if (typingTimeout) {
-        clearTimeout(typingTimeout);
-      }
-      
-      // Set new timeout - hide typing indicator after 1.5 seconds of inactivity
-      const timeout = setTimeout(() => {
-        setIsTyping(false);
-      }, 1500);
-      
-      setTypingTimeout(timeout);
-    } else {
-      setIsTyping(false);
-    }
-    
-    // Cleanup
-    return () => {
-      if (typingTimeout) {
-        clearTimeout(typingTimeout);
-      }
-    };
-  }, [inputMessage]);
+  const [infoBubbles, setInfoBubbles] = useState([]);
+  const [isReceivingData, setIsReceivingData] = useState(false);
+  const nextBubbleId = useRef(0);
 
   const [chatHistory, setChatHistory] = useState([
     {
@@ -131,6 +108,51 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
   const isPersonalInfo = (text) => personalInfoPatterns.some((p) => p.test(text));
   const isRejectInfoPattern = (text) => rejectInfoPatterns.some((p) => p.test(text));
 
+  // Handle typing indicator
+  useEffect(() => {
+    if (inputMessage) {
+      setIsTyping(true);
+      
+      // Clear any existing timeout
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+      
+      // Set new timeout - hide typing indicator after 1.5 seconds of inactivity
+      const timeout = setTimeout(() => {
+        setIsTyping(false);
+      }, 1500);
+      
+      setTypingTimeout(timeout);
+    } else {
+      setIsTyping(false);
+    }
+    
+    // Cleanup
+    return () => {
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+    };
+  }, [inputMessage]);
+
+  // Function to create info bubbles and animate them
+  const createInfoBubble = () => {
+    const id = `bubble-${nextBubbleId.current++}`;
+    setInfoBubbles(prev => [...prev, { id, active: true }]);
+    
+    // Show canister receiving effect
+    setTimeout(() => {
+      setIsReceivingData(true);
+      setTimeout(() => setIsReceivingData(false), 500);
+    }, 800); // Timed to coincide with bubble arrival
+    
+    // Remove bubble from state after animation completes
+    setTimeout(() => {
+      setInfoBubbles(prev => prev.filter(bubble => bubble.id !== id));
+    }, 1100);
+  };
+
   async function sendMessageToAI(input) {
     setIsLoading(true);
     const updatedHistory = [...chatHistory, { role: "user", content: input }];
@@ -160,7 +182,13 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     setIsTyping(false);
 
     if (isPersonalInfo(inputMessage)) {
-      setScreamLevel((prev) => Math.min(100, prev + 25));
+      // Create info bubble animation
+      createInfoBubble();
+      
+      // Set a small delay before updating scream level to sync with animation
+      setTimeout(() => {
+        setScreamLevel((prev) => Math.min(100, prev + 25));
+      }, 800);
     } else if (isRejectInfoPattern(inputMessage)) {
       setScreamLevel((prev) => Math.max(0, prev - 10));
     }
@@ -191,6 +219,14 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
             isLoading={false}
             isTyping={isTyping}
           />
+
+          {infoBubbles.map(bubble => (
+            <InfoBubble 
+              key={bubble.id} 
+              id={bubble.id} 
+              active={bubble.active} 
+            />
+          ))}
         </div>
 
         <Canister screamLevel={screamLevel} />
