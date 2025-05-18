@@ -10,6 +10,6 @@ const groq = new Groq({
 export async function fetchChatCompletion(messages) {
   return groq.chat.completions.create({
     messages,
-    model: "llama-3.3-70b-versatile",
+    model: "llama3.1-70b-8192",
   });
 }
