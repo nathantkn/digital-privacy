@@ -39,3 +39,35 @@
     width: 200px;
   }
 }
+
+/* Updated CSS for the new Quiz button */
+.quiz-button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.quiz-button {
+    padding: 14px 28px;
+    background-color: #10b981;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-button:hover {
+    background-color: #059669;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.quiz-button:active {
+    background-color: #047857;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
