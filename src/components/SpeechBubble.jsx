@@ -1,12 +1,22 @@
 import React from 'react';
 import "../styles/SpeechBubble.css";
 
-const SpeechBubble = ({ type, isLoading, message, loadingText }) => {
+const SpeechBubble = ({ type, isLoading, message, isTyping }) => {
     return (
         <div className={`speech-bubble ${type}-bubble`}>
             <div className="message-text">
-            {isLoading ? (
-                <span className="loading-dots">{loadingText}<span>.</span><span>.</span><span>.</span></span>
+            {isLoading && type === "mike" ? (
+                <span className="loading-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            ) : isTyping && type === "boo" ? (
+                <span className="loading-dots typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
             ) : message}
             </div>
             <div className={`speech-pointer ${type}-pointer`}></div>

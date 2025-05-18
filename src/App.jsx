@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchChatCompletion } from "./groqClient";
 import "./App.css";
@@ -7,6 +7,7 @@ import mikeAvatar from "./assets/mike.webp";
 import Character from "./components/Character";
 import Canister from "./components/Canister";
 import MessageForm from "./components/MessageForm";
+import InfoBubble from "./components/InfoBubble";
 
 function App() {
   const [screamLevel, setScreamLevel] = useState(0);
@@ -14,8 +15,15 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  // const [round, setRound] = useState(1);
+  
+  const [showQuizButton, setShowQuizButton] = useState(false);
   const navigate = useNavigate();
+
+  const [isTyping, setIsTyping] = useState(false);
+  const [typingTimeout, setTypingTimeout] = useState(null);
+
+  const [infoBubbles, setInfoBubbles] = useState([]);
+  const nextBubbleId = useRef(0);
 
   const [chatHistory, setChatHistory] = useState([
     {
@@ -99,15 +107,63 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
   const isPersonalInfo = (text) => personalInfoPatterns.some((p) => p.test(text));
   const isRejectInfoPattern = (text) => rejectInfoPatterns.some((p) => p.test(text));
 
+  // Handle typing indicator
+  useEffect(() => {
+    if (inputMessage) {
+      setIsTyping(true);
+      
+      // Clear any existing timeout
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+      
+      // Set new timeout - hide typing indicator after 1.5 seconds of inactivity
+      const timeout = setTimeout(() => {
+        setIsTyping(false);
+      }, 1500);
+      
+      setTypingTimeout(timeout);
+    } else {
+      setIsTyping(false);
+    }
+    
+    // Cleanup
+    return () => {
+      if (typingTimeout) {
+        clearTimeout(typingTimeout);
+      }
+    };
+  }, [inputMessage]);
+
+  // Function to create info bubbles and animate them
+  const createInfoBubble = () => {
+    const id = `bubble-${nextBubbleId.current++}`;
+    setInfoBubbles(prev => [...prev, { id, active: true }]);
+    
+    // Show canister receiving effect
+    setTimeout(() => {
+    }, 800); // Timed to coincide with bubble arrival
+    
+    // Remove bubble from state after animation completes
+    setTimeout(() => {
+      setInfoBubbles(prev => prev.filter(bubble => bubble.id !== id));
+    }, 1100);
+  };
+
   async function sendMessageToAI(input) {
     setIsLoading(true);
     const updatedHistory = [...chatHistory, { role: "user", content: input }];
     const response = await fetchChatCompletion(updatedHistory);
     const reply = response?.choices?.[0]?.message?.content || "Hmm, I'm having trouble talking!";
 
+    // Check for phase transition phrases
+    if (reply.toLowerCase().includes("try again")) {
+      setScreamLevel(0);
+    }
+
     // Quiz trigger phrase check
     if (reply.toLowerCase().includes("reflection quiz")) {
-      setTimeout(() => navigate("/quiz"), 2500);
+      setShowQuizButton(true);
     }
 
     setChatHistory([...updatedHistory, { role: "assistant", content: reply }]);
@@ -120,15 +176,26 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     if (!inputMessage.trim() || isLoading) return;
 
     setUserInput(inputMessage);
+    setIsTyping(false);
 
     if (isPersonalInfo(inputMessage)) {
-      setScreamLevel((prev) => Math.min(100, prev + 25));
+      // Create info bubble animation
+      createInfoBubble();
+      
+      // Set a small delay before updating scream level to sync with animation
+      setTimeout(() => {
+        setScreamLevel((prev) => Math.min(100, prev + 25));
+      }, 800);
     } else if (isRejectInfoPattern(inputMessage)) {
       setScreamLevel((prev) => Math.max(0, prev - 10));
     }
 
     sendMessageToAI(inputMessage);
     setInputMessage("");
+  };
+
+  const handleQuizRedirect = () => {
+    navigate("/quiz");
   };
 
   return (
@@ -140,24 +207,44 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
             avatar={mikeAvatar}
             message={mikeMessage}
             isLoading={isLoading}
-            loadingText="Mike is thinking..."
+            isTyping={false}
           />
           <Character
             type="boo"
             avatar={booAvatar}
             message={userInput}
             isLoading={false}
+            isTyping={isTyping}
           />
+
+          {infoBubbles.map(bubble => (
+            <InfoBubble 
+              key={bubble.id} 
+              id={bubble.id} 
+              active={bubble.active} 
+            />
+          ))}
         </div>
 
         <Canister screamLevel={screamLevel} />
 
-        <MessageForm
-          inputMessage={inputMessage}
-          setInputMessage={setInputMessage}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-        />
+        {showQuizButton ? (
+          <div className="quiz-button-container">
+            <button 
+              className="quiz-button"
+              onClick={handleQuizRedirect}
+            >
+              Take the Quiz! 🎓
+            </button>
+          </div>
+        ) : (
+          <MessageForm
+            inputMessage={inputMessage}
+            setInputMessage={setInputMessage}
+            handleSubmit={handleSubmit}
+            isLoading={isLoading}
+          />
+        )}
       </div>
     </div>
   );
