@@ -9,10 +9,10 @@ const Canister = ({ screamLevel }) => {
                     <div className="meter-display">
                         <div className="meter-symbol minus">-</div>
                         <div className="meter-segments">
-                            <div className={`segment ${screamLevel >= 20 ? 'active' : ''}`}></div>
-                                <div className={`segment ${screamLevel >= 40 ? 'active' : ''}`}></div>
-                                <div className={`segment ${screamLevel >= 60 ? 'active' : ''}`}></div>
-                                <div className={`segment ${screamLevel >= 80 ? 'active' : ''}`}></div>
+                            <div className={`segment ${screamLevel >= 25 ? 'active' : ''}`}></div>
+                                <div className={`segment ${screamLevel >= 50 ? 'active' : ''}`}></div>
+                                <div className={`segment ${screamLevel >= 75 ? 'active' : ''}`}></div>
+                                <div className={`segment ${screamLevel >= 100 ? 'active' : ''}`}></div>
                         </div>
                         <div className="meter-symbol plus">+</div>
                     </div>
