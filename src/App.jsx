@@ -58,10 +58,10 @@ After 6–7 messages:
 
 ### Phase 3 – Second Round (Privacy-Smart)
 - Restart: “Hi again! What should I call you this time?"
-- Ask similar fun questions.
-- If they avoid personal info:
-  - “Nice job keeping your secrets! You’re a pro! 🛡️🎉”
-  - “Here's a fun reflection quiz for you to try:”
+- Ask 5-6 similar fun questions.
+- If they avoid personal info after asking 5-6 times, say:
+  - “Wow! Nice job keeping your information a secret! I’m impressed! 🕵️‍♂️”
+- Then say in a separate message: “Here’s a fun reflection quiz to see what you learned about keeping your info private! 🎓”
 
 ONLY say that last line when it’s time to go to quiz → the app will redirect.
       `
@@ -75,7 +75,6 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
   const personalInfoPatterns = [
     /my name is/i,
     /i['’]m\s+\w+/i,
-    /call me/i,
     /\bi live\b/i,
     /\bmy (address|school|city|location)\b/i,
     /\bmy (mom|dad|sister|brother|grandma|grandpa|aunt|uncle|friend)\b/i,
@@ -83,14 +82,22 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     /with (my )?(family|mom|dad|brother|sister)/i,
 
     // answer patterns
-    /\bi have (a |an )?(dog|cat|pet)\b/i,
-    /\bi am in (\d{1,2}(st|nd|rd|th)?) grade\b/i,
-    /after school,? i (like to|enjoy)\b/i,
-    /\bi (like|love) to\b/i,
-    /\bmy (favorite|best)\b/i,
+    /\bhave (a |an )?(dog|cat|pet|brother|sister)\b/i,
+    /\bin (\d{1,2,3,4,5,6,7,8,9,10,11,12}(st|nd|rd|th)?) grade\b/i,
+    /(like to|enjoy|love to|like|love)\b/i,
+    /\b(favorite|best)\b/i,
+  ];
+
+  const rejectInfoPatterns = [
+    /i don['’]t want to share/i,
+    /i don['’]t want to talk/i,
+    /i don['’]t want to tell you/i,
+    /i don['’]t want to say/i,
+    /i don['’]t want to answer/i,
   ];
 
   const isPersonalInfo = (text) => personalInfoPatterns.some((p) => p.test(text));
+  const isRejectInfoPattern = (text) => rejectInfoPatterns.some((p) => p.test(text));
 
   async function sendMessageToAI(input) {
     setIsLoading(true);
@@ -99,7 +106,7 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     const reply = response?.choices?.[0]?.message?.content || "Hmm, I'm having trouble talking!";
 
     // Quiz trigger phrase check
-    if (reply.toLowerCase().includes("click below to try")) {
+    if (reply.toLowerCase().includes("reflection quiz")) {
       setTimeout(() => navigate("/quiz"), 2500);
     }
 
@@ -115,7 +122,9 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     setUserInput(inputMessage);
 
     if (isPersonalInfo(inputMessage)) {
-      setScreamLevel((prev) => Math.min(100, prev + 20));
+      setScreamLevel((prev) => Math.min(100, prev + 25));
+    } else if (isRejectInfoPattern(inputMessage)) {
+      setScreamLevel((prev) => Math.max(0, prev - 10));
     }
 
     sendMessageToAI(inputMessage);
