@@ -1,4 +1,5 @@
 import React from 'react';
+import "../styles/Canister.css";
 
 const Canister = ({ screamLevel }) => {
     return (

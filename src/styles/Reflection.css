@@ -1,0 +1,61 @@
+.reflection-container {
+  background: url('./assets/your-bg.png') center center / cover no-repeat;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quiz-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.mike-icon {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+.answers {
+  margin-top: 20px;
+}
+
+.answer-btn {
+  background-color: #e0f0ff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-size: 16px;
+  margin: 10px 0;
+  width: 100%;
+  transition: 0.2s ease;
+}
+
+.answer-btn:hover {
+  background-color: #cce4ff;
+}
+
+.correct {
+  background-color: #c8f7c5;
+}
+
+.incorrect {
+  background-color: #ffcaca;
+}
+
+.feedback {
+  margin-top: 20px;
+}
+
+.feedback button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffef99;
+  border: none;
+  border-radius: 8px;
+}

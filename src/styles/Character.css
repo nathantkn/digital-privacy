@@ -1,0 +1,40 @@
+/* Character.css */
+.character {
+    width: 33%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Avatar Styles */
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mike-avatar {
+    width: 200px;
+    height: 200px;
+}
+
+.boo-avatar {
+    width: 160px;
+    height: 160px;
+}
+
+.mike-img {
+    width: 160px;
+    height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boo-img {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

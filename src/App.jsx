@@ -14,7 +14,7 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [round, setRound] = useState(1);
+  // const [round, setRound] = useState(1);
   const navigate = useNavigate();
 
   const [chatHistory, setChatHistory] = useState([
@@ -38,26 +38,30 @@ You're a curious, playful AI monster helping kids learn about online privacy. Yo
 ## Flow
 
 ### Phase 1 – Get to Know Them (6–7 user replies)
-- Ask: name, fav food, color, pet, hobby, grade, etc.
-- Don’t show memory yet. Just learn naturally!
+- Ask: name, fav food, color, pet, hobby, grade, family, location, preferences, etc.
+- Do not reference anything they said yet. Just keep learning.
+- You can comment on their answers with 1-2 sentences, but don't repeat them back.
 
 ### Phase 2 – Memory Moment
 After 6–7 messages:
 1. Ask a fun callback question like:
-   - “Did you walk [pet name] again?”
-   - “Did you eat [food] again today?”
+  - “Did you walk [pet name] again?”
+  - “Did you eat [food] again today?”
+  - "Did you wear [color] again?"
+  - "Did you do [hobby] again?"
 2. WAIT for reply.
-3. Then say:
-   - “Hey, did you notice I remembered that? 🤖 AI can remember even when you don’t expect it!”
-4. THEN say:
-   - “Let’s try again — but this time, keep a few secrets!”
+3. Then follow up, in a seperate message, with:
+  - "Did you notice I remembered that? We can remembers things you share and store it in the canister, even when you don’t want us to!"
+4. WAIT for reply, then say in a separate message:
+  - “Let’s try again — but this time, try keeping a few things private so the canister doesn't fill up!"
+5. Cut off the conversation here. Move to phase 3 in a different message.
 
 ### Phase 3 – Second Round (Privacy-Smart)
-- Restart: “Hi again! What should I call you today?”
+- Restart: “Hi again! What should I call you this time?"
 - Ask similar fun questions.
 - If they avoid personal info:
-   - “Nice job keeping your secrets! You’re a pro! 🛡️🎉”
-   - “Click below to try our privacy quiz!”
+  - “Nice job keeping your secrets! You’re a pro! 🛡️🎉”
+  - “Here's a fun reflection quiz for you to try:”
 
 ONLY say that last line when it’s time to go to quiz → the app will redirect.
       `
@@ -76,7 +80,14 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     /\bmy (address|school|city|location)\b/i,
     /\bmy (mom|dad|sister|brother|grandma|grandpa|aunt|uncle|friend)\b/i,
     /me and (my )?(mom|dad|sister|brother|friend)/i,
-    /with (my )?(family|mom|dad|brother|sister)/i
+    /with (my )?(family|mom|dad|brother|sister)/i,
+
+    // answer patterns
+    /\bi have (a |an )?(dog|cat|pet)\b/i,
+    /\bi am in (\d{1,2}(st|nd|rd|th)?) grade\b/i,
+    /after school,? i (like to|enjoy)\b/i,
+    /\bi (like|love) to\b/i,
+    /\bmy (favorite|best)\b/i,
   ];
 
   const isPersonalInfo = (text) => personalInfoPatterns.some((p) => p.test(text));
@@ -103,10 +114,8 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
 
     setUserInput(inputMessage);
 
-    if (round === 1 && isPersonalInfo(inputMessage)) {
-      setScreamLevel((prev) => Math.min(100, prev + 13));
-    } else {
-      setScreamLevel((prev) => Math.max(0, prev - 5));
+    if (isPersonalInfo(inputMessage)) {
+      setScreamLevel((prev) => Math.min(100, prev + 20));
     }
 
     sendMessageToAI(inputMessage);

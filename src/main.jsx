@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App.jsx';
-import Reflection from './Reflection.jsx'; // or Quiz.jsx
+import Reflection from './components/Reflection.jsx'; // or Quiz.jsx
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
