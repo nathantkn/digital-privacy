@@ -1,6 +1,5 @@
 .landing-container {
-    background-color: #1e3a8a;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,23 +7,28 @@
     overflow: hidden;
     font-family: sans-serif;
     position: relative;
-    width: 80rem;
+    width: 70rem;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(1px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Background bubbles animation */
-.background-bubbles {
+/* .background-bubbles {
     position: absolute;
     inset: 0;
     overflow: hidden;
-}
+} */
 
-.bubble {
+/* .bubble {
     position: absolute;
     border-radius: 50%;
-    background-color: #3b82f6;
+    background-color: rgb(52, 52, 52);
     opacity: 0.2;
     animation: float infinite linear;
-}
+} */
 
 @keyframes float {
     0% {
@@ -46,20 +50,20 @@
 
 /* Content area with slide-in animation */
 .landing-content {
-    transform: translateX(-100%);
-    transition: transform 1s ease;
+    opacity: 0;
+    transition: opacity 1.5s ease;
 }
 
 .landing-content.visible {
-    transform: translateX(0);
+    opacity: 1;
 }
 
 .landing-card {
-    background-color: #14b8a6;
-    border-radius: 0.5rem;
+    background-color: #129b8bb1;
+    border-radius: 20px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     padding: 2rem;
-    max-width: 64rem;
+    width: 45rem;
     margin: 0 auto;
     text-align: center;
 }
@@ -69,11 +73,9 @@
     margin-bottom: 2rem;
 }
 
-.landing-title {
-    font-size: 3.75rem;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 0.5rem;
+.logo {
+    width: 150px;
+    height: 100px;
 }
 
 .inc { 
@@ -107,8 +109,8 @@
 .door {
     position: absolute;
     inset: 0;
-    background-color: #d97706;
     width: 80%;
+    height: 100%;
     left: 10%;
     transition: transform 1s ease-in-out;
 }
@@ -117,7 +119,7 @@
     transform: translateX(80%);
 }
 
-.door-knob {
+/* .door-knob {
     position: absolute;
     top: 50%;
     right: 1rem;
@@ -126,7 +128,7 @@
     width: 1rem;
     border-radius: 50%;
     background-color: #fcd34d;
-}
+} */
 
 .door-bottom {
     position: absolute;
@@ -134,29 +136,62 @@
     left: 0;
     right: 0;
     height: 1rem;
-    background-color: #111827;
+    background-color: #1f2937;
 }
 
-/* Monster avatar animation */
+/* Monster avatars animations */
 .monster-avatar {
     position: absolute;
     top: 30%;
-    left: 40%;
     transform: translateY(-50%);
-    animation: flyOut 2s ease-in-out forwards;
 }
 
-.randall {
-    width: 80px;
-    height: 80px;
+/* Different directions for monsters */
+.monster-right {
+    left: 40%;
+    animation: flyRight 2s ease-in-out forwards;
+}
+
+.monster-left {
+    left: 40%;
+    animation: flyLeft 2s ease-in-out forwards;
+}
+
+.monster-up {
+    left: 40%;
+    animation: flyUp 2s ease-in-out forwards;
+}
+
+.monster-down-right {
+    left: 40%;
+    animation: flyDownRight 2s ease-in-out forwards;
+}
+
+/* Monster images styling */
+.monster-img {
     transform: scale(0);
     animation: growMonster 0.5s ease-out forwards;
     animation-delay: 0.2s;
+    width: 80px;
+    height: 80px;
 }
 
-@keyframes flyOut {
+/* Specific monster styling */
+.randall {
+    animation-delay: 0.2s;
+}
+
+.sulley {
+    animation-delay: 0.4s;
+}
+
+.celia {
+    animation-delay: 0.6s;
+}
+
+/* Monster flight animations */
+@keyframes flyRight {
     0% {
-        left: 40%;
         opacity: 0;
     }
     10% {
@@ -164,6 +199,34 @@
     }
     100% {
         left: 200%;
+        opacity: 1;
+    }
+}
+
+@keyframes flyLeft {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        left: -100%;
+        opacity: 1;
+    }
+}
+
+@keyframes flyUp {
+    0% {
+        top: 30%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        top: -75%;
+        left: 100%;
         opacity: 1;
     }
 }

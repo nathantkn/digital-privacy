@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import mikeAvatar from "../assets/mike.webp";
+import mikeAvatar from "../assets/mike-animated.png";
 import "../styles/Reflection.css";
 
 const questions = [
@@ -25,7 +25,7 @@ const questions = [
     ],
   },
   {
-    question: "What should you never post online?",
+    question: "What should you NEVER post online?",
     options: ["A silly nickname 🤪", "Your exact location 📍", "A photo of your lunch 🍔"],
     correct: 1,
     explanations: [
@@ -62,7 +62,7 @@ export default function Reflection() {
       } else {
         setQuizDone(true);
       }
-    }, 2000);
+    }, 3000);
   };
 
   const restartApp = () => navigate("/");
@@ -76,10 +76,23 @@ export default function Reflection() {
 
   const currentQuestion = questions[current];
 
+  // Function to determine button class based on selection
+  const getButtonClass = (index) => {
+    if (selected === null) return "reflection-btn";
+    
+    if (index === currentQuestion.correct) {
+      return "reflection-btn reflection-btn-correct";
+    }
+    
+    return selected === index && index !== currentQuestion.correct 
+      ? "reflection-btn reflection-btn-incorrect" 
+      : "reflection-btn";
+  };
+
   return (
     <div className="reflection-outer-box">
       <div className="reflection-inner-box">
-        <img src={mikeAvatar} alt="Mike" className="reflection-mike" />
+        <img src={mikeAvatar} className="reflection-mike" />
 
         {!quizDone ? (
           <>
@@ -87,7 +100,7 @@ export default function Reflection() {
             {currentQuestion.options.map((opt, idx) => (
               <button
                 key={idx}
-                className="reflection-btn"
+                className={getButtonClass(idx)}
                 onClick={() => handleChoice(idx)}
                 disabled={selected !== null}
               >
@@ -107,8 +120,10 @@ export default function Reflection() {
               Remember: It’s smart to keep private info like your real name, address, and passwords to yourself.
               You're now a privacy pro! 🧠🔐
             </p>
-            <button onClick={retryReflection} className="reflection-restart-btn">🔁 Retry Reflection</button>
-            <button onClick={restartApp} className="reflection-restart-btn">🏁 Restart App</button>
+            <div className="reflection-buttons-container">
+              <button onClick={retryReflection} className="reflection-restart-btn">🔁 Retry Reflection</button>
+              <button onClick={restartApp} className="reflection-restart-btn">🏁 Restart App</button>
+            </div>
           </>
         )}
       </div>

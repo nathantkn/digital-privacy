@@ -7,6 +7,7 @@
   max-width: 500px;
   margin: 0 auto;
   text-align: center;
+  color: black;
 }
 .reflection-outer-box {
   position: relative;
@@ -22,11 +23,24 @@
   padding: 32px;
   display: flex;
   flex-direction: column;
+  color: black;
 }
 
 .reflection-mike {
   width: 60px;
-  margin-bottom: 1rem;
+  animation: floating 3s ease-in-out infinite;
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .reflection-btn {
@@ -40,10 +54,24 @@
   background-color: #f9f9f9;
   transition: 0.2s ease;
   cursor: pointer;
+  color: black;
 }
 
 .reflection-btn:hover {
   background-color: #f0f0f0;
+}
+
+/* Added styles for correct and incorrect answers */
+.reflection-btn-correct {
+  background-color: #3d8d40 !important;
+  color: white !important;
+  border-color: #3d8d40 !important;
+}
+
+.reflection-btn-incorrect {
+  background-color: #ab2e26 !important;
+  color: white !important;
+  border-color: #ab2e26 !important;
 }
 
 .reflection-feedback {
@@ -60,9 +88,20 @@
   border-radius: 10px;
   font-size: 1rem;
   margin-top: 1rem;
+  margin-right: 0.5rem;
+  margin-left: 0.5rem;
   cursor: pointer;
+  display: inline-block;
 }
 
 .reflection-restart-btn:hover {
   background-color: #45a049;
+}
+
+/* Container for the end buttons */
+.reflection-buttons-container {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }

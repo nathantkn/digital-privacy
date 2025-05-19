@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { fetchChatCompletion } from "./groqClient";
 import "./App.css";
 import booAvatar from "./assets/boo.webp";
-import mikeAvatar from "./assets/mike.webp";
+import mikeNormal from "./assets/mike.webp";
+import mikeHappy from "./assets/mikeHappy.webp";
+import mikeUnhappy from "./assets/mikeUnhappy.webp";
 import Character from "./components/Character";
 import Canister from "./components/Canister";
 import MessageForm from "./components/MessageForm";
@@ -15,6 +17,7 @@ function App() {
   const [userInput, setUserInput] = useState("");
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [mikeAvatar, setMikeAvatar] = useState(mikeNormal);
   
   const [showQuizButton, setShowQuizButton] = useState(false);
   const navigate = useNavigate();
@@ -181,13 +184,17 @@ ONLY say that last line when it’s time to go to quiz → the app will redirect
     if (isPersonalInfo(inputMessage)) {
       // Create info bubble animation
       createInfoBubble();
-      
+
+      setMikeAvatar(mikeHappy);
       // Set a small delay before updating scream level to sync with animation
       setTimeout(() => {
         setScreamLevel((prev) => Math.min(100, prev + 25));
       }, 800);
     } else if (isRejectInfoPattern(inputMessage)) {
       setScreamLevel((prev) => Math.max(0, prev - 10));
+      setMikeAvatar(mikeUnhappy);
+    } else {
+      setMikeAvatar(mikeNormal);
     }
 
     sendMessageToAI(inputMessage);
