@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/LandingPage.css";
 import Logo from "../assets/logo.png";
-import Randall from "../assets/randall.webp";
-import Sulley from "../assets/sulley.webp";  
-import Celia from "../assets/celia.webp";
-import BooDoorFrame from "../assets/boo-door.jpg";
+import Door from "./Door";
+import Canister from "./LandingPageCanister";
 
 function LandingPage() {
     const [isVisible, setIsVisible] = useState(false);
@@ -77,48 +75,11 @@ function LandingPage() {
                         <p className="landing-tagline">Learn about data privacy and AI in a fun, safe environment!</p>
                     </div>
 
-                    {/* Door animation */}
-                    <div className="door-container">
-                        <div className="door-frame" />
-                        <img src={BooDoorFrame} className={`door ${doorOpen ? "open" : ""}`}/>
-                        <div className="door-bottom" />
-                        {/* Monster avatar that appears when door opens */}
-                        {monsterVisible && (
-                        <>
-                            <div className="monster-avatar monster-right">
-                                <img src={Randall} className="monster-img randall" alt="Randall" />
-                            </div>
-                            
-                            <div className="monster-avatar monster-up">
-                                <img src={Sulley} className="monster-img sulley" alt="Sulley" />
-                            </div>
-                            
-                            <div className="monster-avatar monster-left">
-                                <img src={Celia} className="monster-img celia" alt="Celia" />
-                            </div>
-                        </>
-                        )}
-                    </div>
+                    {/* Door Component */}
+                    <Door doorOpen={doorOpen} monsterVisible={monsterVisible} />
 
-                    {/* Energy meter */}
-                    <div className="canister-container">
-                        <div className="scream-canister">
-                            <div className="canister-body">
-                                <div className="meter-display">
-                                    <div className="meter-symbol minus">-</div>
-                                        <div className="energy-bar">
-                                            <div 
-                                                className="energy-fill"
-                                                style={{ width: `${scareEnergy}%` }}
-                                            />
-                                        </div>
-                                    <div className="meter-symbol plus">+</div>
-                                </div>
-                            </div>
-                            <div className="canister-cap left-cap"></div>
-                            <div className="canister-cap right-cap"></div>
-                        </div>
-                    </div>
+                    {/* Energy Meter Component */}
+                    <Canister scareEnergy={scareEnergy} />
 
                     {/* CTA Button */}
                     <button

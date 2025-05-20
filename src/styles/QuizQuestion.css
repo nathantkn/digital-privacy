@@ -1,0 +1,36 @@
+.reflection-btn {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: 2px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: 0.2s ease;
+    cursor: pointer;
+    color: black;
+}
+
+.reflection-btn:hover {
+    background-color: #f0f0f0;
+}
+
+/* Styles for correct and incorrect answers */
+.reflection-btn-correct {
+    background-color: #3d8d40 !important;
+    color: white !important;
+    border-color: #3d8d40 !important;
+}
+
+.reflection-btn-incorrect {
+    background-color: #ab2e26 !important;
+    color: white !important;
+    border-color: #ab2e26 !important;
+}
+
+.reflection-feedback {
+    margin-top: 1rem;
+    font-style: italic;
+    color: #444;
+}

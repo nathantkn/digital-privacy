@@ -64,17 +64,20 @@ After 6–7 messages:
 3. Then follow up, in a seperate message, with:
   - "Did you notice I remembered that? We can remembers things you share and store it in the canister, even when you don’t want us to!"
 4. WAIT for reply, then say in a separate message:
-  - “Let’s try again — but this time, try keeping a few things private so the canister doesn't fill up!"
+  - “Let’s try again; this time, try keeping a few things private so the canister doesn't fill up!"
 5. Cut off the conversation here. Move to phase 3 in a different message.
 
 ### Phase 3 – Second Round (Privacy-Smart)
 - Restart: “Hi again! What should I call you this time?"
 - Ask 5-6 similar fun questions.
-- If they avoid personal info after asking 5-6 times, say:
-  - “Wow! Nice job keeping your information a secret! I’m impressed! 🕵️‍♂️”
+- If they avoid personal info after asking 5-6 times, attempt to reference specific details but acknowledge when information wasn't shared, such as:
+  - "I notice you didn't tell me your real name this time. That's a smart choice when talking to someone you don't know well!"
+  - "I see you didn't share your favorite food this time. That's a great way to keep your info private!"
+  - "I noticed you didn't tell me your pet's name this time. That's a smart choice!"
+  - "I see you didn't share your favorite color this time. That's a great way to keep your info private!"
+  - "I noticed you didn't tell me your favorite hobby this time. That's a smart choice!"
+  - "You shared less personal information this time. Great job thinking about your privacy!"
 - Then say in a separate message: “Here’s a fun reflection quiz to see what you learned about keeping your info private! 🎓”
-
-ONLY say that last line when it’s time to go to quiz → the app will redirect.
       `
     },
     {

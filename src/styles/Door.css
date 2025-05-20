@@ -1,0 +1,135 @@
+/* Door animation styles */
+.door-container {
+    margin-bottom: 2rem;
+    position: relative;
+    height: 16rem;
+    width: 12rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.door-frame {
+    position: absolute;
+    inset: 0;
+    background-color: #1f2937;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+.door {
+    position: absolute;
+    inset: 0;
+    width: 80%;
+    height: 100%;
+    left: 10%;
+    transition: transform 1s ease-in-out;
+}
+
+.door.open {
+    transform: translateX(80%);
+}
+
+.door-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1rem;
+    background-color: #1f2937;
+}
+
+/* Monster avatars animations */
+.monster-avatar {
+    position: absolute;
+    top: 30%;
+    transform: translateY(-50%);
+}
+
+/* Different directions for monsters */
+.monster-right {
+    left: 40%;
+    animation: flyRight 2s ease-in-out forwards;
+}
+
+.monster-left {
+    left: 40%;
+    animation: flyLeft 2s ease-in-out forwards;
+}
+
+.monster-up {
+    left: 40%;
+    animation: flyUp 2s ease-in-out forwards;
+}
+
+/* Monster images styling */
+.monster-img {
+    transform: scale(0);
+    animation: growMonster 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+    width: 80px;
+    height: 80px;
+}
+
+/* Specific monster styling */
+.randall {
+    animation-delay: 0.2s;
+}
+
+.sulley {
+    animation-delay: 0.4s;
+}
+
+.celia {
+    animation-delay: 0.6s;
+}
+
+/* Monster flight animations */
+@keyframes flyRight {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        left: 200%;
+        opacity: 1;
+    }
+}
+
+@keyframes flyLeft {
+    0% {
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        left: -100%;
+        opacity: 1;
+    }
+}
+
+@keyframes flyUp {
+    0% {
+        top: 30%;
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        top: -75%;
+        left: 100%;
+        opacity: 1;
+    }
+}
+
+@keyframes growMonster {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1.5);
+    }
+}
