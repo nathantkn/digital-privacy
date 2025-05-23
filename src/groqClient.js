@@ -5,6 +5,7 @@ const groq = new Groq({
   dangerouslyAllowBrowser: true,
 });
 
+// Initialize the Groq client
 export async function fetchChatCompletion(messages) {
   return groq.chat.completions.create({
     messages,

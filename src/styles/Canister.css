@@ -1,4 +1,4 @@
-/* Canister.css */
+/* Canister styling */
 .canister-container {
     margin-top: 32px;
     height: 112px;
@@ -28,7 +28,7 @@
     justify-content: center;
     border: 2px solid #f59e0b;
     z-index: 2;
-    overflow: hidden; /* Hide overflow for bubbles */
+    overflow: hidden;
 }
 
 .meter-display {

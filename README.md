@@ -1,12 +1,20 @@
-# React + Vite
+# Digital Privacy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Overview
 
-Currently, two official plugins are available:
+This web-based sandbox application is designed to teach children how AI can collect, remember, and use personal information. Through an interactive, “Monsters Inc.” themed experience, the app encourages children to explore the risks of data oversharing in a safe and engaging environment.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
+- Interactive Landing Page: On the landing page, kids learn that filling a virtual canister causes a door to open and let monsters in, which demonstrates how oversharing can “invite” privacy risks.
 
-## Expanding the ESLint configuration
+- AI Companion: When they click the “Get Started” button, they enter a chat with Mike, a playful AI companion that greets and gets to know the child. Here, Mike has a canister that fills each time the user reveals personal details. 
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Feedback and Retry Loop: When the canister reaches its limit, Mike gently recalls some of the information previously shared. This highlights how AI can remember personal data, even when users might not realize it. Children are then given the opportunity to retry the conversation with more cautious sharing.
+
+- Reflection Quiz: After successfully avoiding oversharing, children are guided to a reflection quiz. This reinforces what they’ve learned by allowing them to test their understanding and practice safe sharing habits.
+
+## Technical Details: 
+The app is built with React, Vite, and Node.js, uses Ollama AI API for chat intelligence, and is deployed with Vercel.
+
+You can try out the app at: https://new-digital-privacy.vercel.app or https://digital-privacy.vercel.app
+

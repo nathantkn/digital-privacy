@@ -1,4 +1,3 @@
-import React from 'react';
 import "../styles/MessageForm.css";
 
 const MessageForm = ({ inputMessage, setInputMessage, handleSubmit, isLoading }) => {

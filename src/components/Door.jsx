@@ -11,7 +11,7 @@ export default function Door({ doorOpen, monsterVisible }) {
             <img src={BooDoorFrame} className={`door ${doorOpen ? "open" : ""}`} alt="Door" />
             <div className="door-bottom" />
 
-            {/* Monster avatars that appear when door opens */}
+            {/* Monster avatars */}
             {monsterVisible && (
                 <>
                     <div className="monster-avatar monster-right">

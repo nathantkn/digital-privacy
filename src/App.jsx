@@ -12,22 +12,27 @@ import MessageForm from "./components/MessageForm";
 import InfoBubble from "./components/InfoBubble";
 
 function App() {
-  const [screamLevel, setScreamLevel] = useState(0);
+  // Mike's message and user input
   const [mikeMessage, setMikeMessage] = useState("Hey kiddo! I'm Mike Wazowski! What's your name? 😊");
   const [userInput, setUserInput] = useState("");
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [mikeAvatar, setMikeAvatar] = useState(mikeNormal);
-  
-  const [showQuizButton, setShowQuizButton] = useState(false);
-  const navigate = useNavigate();
 
+  // Typing indicator
   const [isTyping, setIsTyping] = useState(false);
   const [typingTimeout, setTypingTimeout] = useState(null);
 
+  // Info bubbles
   const [infoBubbles, setInfoBubbles] = useState([]);
   const nextBubbleId = useRef(0);
 
+  // Misc state variables
+  const navigate = useNavigate();
+  const [screamLevel, setScreamLevel] = useState(0);
+  const [showQuizButton, setShowQuizButton] = useState(false);
+  const [mikeAvatar, setMikeAvatar] = useState(mikeNormal);
+
+  // Chat history with initial system message
   const [chatHistory, setChatHistory] = useState([
     {
       role: "system",
@@ -86,6 +91,7 @@ After 6–7 messages:
     }
   ]);
 
+  // Patterns for personal information
   const personalInfoPatterns = [
     /my name is/i,
     /i['’]m\s+\w+/i,
@@ -95,13 +101,13 @@ After 6–7 messages:
     /me and (my )?(mom|dad|sister|brother|friend)/i,
     /with (my )?(family|mom|dad|brother|sister)/i,
 
-    // answer patterns
     /\bhave (a |an )?(dog|cat|pet|brother|sister)\b/i,
     /\bin (\d{1,2,3,4,5,6,7,8,9,10,11,12}(st|nd|rd|th)?) grade\b/i,
     /(like to|enjoy|love to|like|love)\b/i,
     /\b(favorite|best)\b/i,
   ];
 
+  // Patterns for rejecting personal information
   const rejectInfoPatterns = [
     /i don['’]t want to share/i,
     /i don['’]t want to talk/i,
@@ -123,7 +129,7 @@ After 6–7 messages:
         clearTimeout(typingTimeout);
       }
       
-      // Set new timeout - hide typing indicator after 1.5 seconds of inactivity
+      // Set new timeout - hide typing indicator after inactivity
       const timeout = setTimeout(() => {
         setIsTyping(false);
       }, 1500);
@@ -148,7 +154,7 @@ After 6–7 messages:
     
     // Show canister receiving effect
     setTimeout(() => {
-    }, 800); // Timed to coincide with bubble arrival
+    }, 800); // Timed to match bubble arrival
     
     // Remove bubble from state after animation completes
     setTimeout(() => {

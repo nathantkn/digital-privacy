@@ -67,7 +67,7 @@ function LandingPage() {
                 ))}
             </div> */}
 
-            {/* Main content with slide-in animation */}
+            {/* Main content with fade-in animation */}
             <div className={`landing-content ${isVisible ? "visible" : ""}`}>
                 <div className="landing-card">
                     <div className="landing-header">
@@ -75,13 +75,10 @@ function LandingPage() {
                         <p className="landing-tagline">Learn about data privacy and AI in a fun, safe environment!</p>
                     </div>
 
-                    {/* Door Component */}
                     <Door doorOpen={doorOpen} monsterVisible={monsterVisible} />
 
-                    {/* Energy Meter Component */}
                     <Canister scareEnergy={scareEnergy} />
 
-                    {/* CTA Button */}
                     <button
                         onClick={handleGetStarted}
                         className="cta-button"
